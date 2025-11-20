@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
@@ -14,6 +14,23 @@ import {
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Content Security Policy middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; " +
+    "img-src 'self' data: https:; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "font-src 'self' data:; " +
+    "connect-src 'self'; " +
+    "frame-ancestors 'none'; " +
+    "base-uri 'self'; " +
+    "form-action 'self'"
+  );
+  next();
+});
 
 const prisma = new PrismaClient();
 
