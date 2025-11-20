@@ -173,6 +173,31 @@ jobs:
           tenant-id: ${{ env.TENANT_ID }}
           subscription-id: ${{ env.SUBSCRIPTION_ID }}
 
+      # ---- Configure App Settings ----
+      - name: Set Azure App Service settings
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: ${{ env.WEBAPP_NAME }}
+          app-settings-json: |
+            [
+              {
+                "name": "NODE_ENV",
+                "value": "production"
+              },
+              {
+                "name": "DATABASE_URL",
+                "value": "${{ secrets.DATABASE_URL }}"
+              },
+              {
+                "name": "JWT_ACCESS_SECRET",
+                "value": "${{ secrets.JWT_ACCESS_SECRET }}"
+              },
+              {
+                "name": "JWT_REFRESH_SECRET",
+                "value": "${{ secrets.JWT_REFRESH_SECRET }}"
+              }
+            ]
+
       # ---- Deploy ----
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
