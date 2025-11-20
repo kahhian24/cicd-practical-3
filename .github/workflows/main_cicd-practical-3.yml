@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  WEBAPP_NAME: "cicdp"
+  WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}
   NODE_VERSION: "20.x"
   API_DIR: "api"
   WEB_DIR: "web"
@@ -179,3 +179,4 @@ jobs:
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           package: ${{ env.ARTIFACT_NAME }}
+
